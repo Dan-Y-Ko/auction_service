@@ -11,6 +11,8 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function createAuction(event, context) {
   const { title } = event.body;
   const { email } = event.requestContext.authorizer;
+
+  console.log(event);
   const now = new Date();
   const endDate = new Date();
   endDate.setHours(now.getHours() + 1);
