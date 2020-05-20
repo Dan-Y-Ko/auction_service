@@ -1,5 +1,8 @@
+import { getEndedAuctions } from "../lib/getEndedAuctions";
+
 async function processAuctions(event, context) {
-  console.log(event);
+  const auctionsToClose = await getEndedAuctions();
+  console.log(auctionsToClose);
 }
 
 export const handler = processAuctions;
