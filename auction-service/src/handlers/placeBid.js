@@ -7,6 +7,7 @@ import { getAuctionById } from "./getAuction";
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function placeBid(event, context) {
+  console.log(event);
   const { id } = event.pathParameters;
   const { amount } = event.body;
 
