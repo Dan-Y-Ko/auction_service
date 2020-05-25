@@ -1,21 +1,27 @@
 import AWS from "aws-sdk";
 
-const ses = new AWS.SES({ region: "us-east-1" });
+const ses = new AWS.SES({ region: "eu-west-1" });
 
 async function sendMail(event, context) {
+  const record = event.Records[0];
+  console.log("record processing", record);
+
+  const email = JSON.parse(record.body);
+  const { subject, body, recipient } = email;
+
   const params = {
     Source: "danko56666@gmail.com",
     Destination: {
-      ToAddresses: ["danko56666@gmail.com"],
+      ToAddresses: [recipient],
     },
     Message: {
       Body: {
         Text: {
-          Data: "Hello",
+          Data: body,
         },
       },
       Subject: {
-        Data: "Test",
+        Data: subject,
       },
     },
   };
@@ -23,6 +29,7 @@ async function sendMail(event, context) {
   try {
     const result = await ses.sendEmail(params).promise();
     console.log(result);
+    return result;
   } catch (error) {
     console.error(error);
   }
